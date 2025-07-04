@@ -1,15 +1,16 @@
 {
-  "name": "spotify-wallpaper-server",
+  "name": "spotify-now-playing-api",
   "version": "1.0.0",
+  "description": "Spotify Now Playing API for Wallpaper or Web",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
-    "axios": "^1.6.0",
+    "axios": "^1.6.8",
     "cors": "^2.8.5",
-    "dotenv": "^16.0.3",
-    "express": "^4.18.2",
+    "dotenv": "^16.3.1",
+    "express": "^4.19.2",
     "querystring": "^0.2.1"
   }
 }

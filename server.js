@@ -2,11 +2,13 @@ require("dotenv").config();
 const express = require("express");
 const axios = require("axios");
 const qs = require("querystring");
+const cors = require("cors");
 
 const app = express();
-app.use(require("cors")());
+app.use(cors());
 
 let access_token = "";
+
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
 const refresh_token = process.env.REFRESH_TOKEN;
@@ -27,6 +29,10 @@ async function refreshAccessToken() {
   access_token = response.data.access_token;
 }
 
+app.get("/", (req, res) => {
+  res.send("🎵 Spotify Now Playing API is running!");
+});
+
 app.get("/now-playing", async (req, res) => {
   try {
     if (!access_token) await refreshAccessToken();
@@ -44,10 +50,12 @@ app.get("/now-playing", async (req, res) => {
       name: item.name,
       artist: item.artists.map(a => a.name).join(", "),
       url: item.external_urls.spotify,
+      image: item.album.images?.[0]?.url || "",
     });
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch" });
   }
 });
 
-app.listen(3001, () => console.log("Server running on http://localhost:3001"));
+const port = process.env.PORT || 3001;
+app.listen(port, () => console.log(`✅ Server running on port ${port}`));
